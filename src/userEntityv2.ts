@@ -6,11 +6,15 @@ export interface entityEntry {
     "synonyms": string[]
 }
 
-export let cred = {
+let cred = {
     serviceAccountEmail: "dialogflow-xxxxxx@project-name.iam.gserviceaccount.com",
     privateKey: "-----BEGIN PRIVATE KEY----xxxxxxxxx",
-    session: ""
+}
 
+export let init = (serviceAccountJson) => {
+    console.log("serviceAccountJson: ", serviceAccountJson);
+    cred.privateKey = serviceAccountJson.privateKey;
+    cred.serviceAccountEmail = serviceAccountJson.serviceAccountEmail;
 }
 
 
