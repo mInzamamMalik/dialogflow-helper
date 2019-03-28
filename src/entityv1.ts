@@ -4,9 +4,9 @@ export interface entityEntryInterface {
     "value": string,
     "synonyms": string[]
 }
-const access_token = "Bearer 3065ceaaf2f24c1cb51dbad1987b1a01"
 export class entityv1 {
-
+    
+    static access_token = "Bearer 3065ceaaf2f24c1cb51dbad1987b1a01"
 
     static makeDevEntity(entityName: string, entries: entityEntryInterface[]) {
 
@@ -22,11 +22,11 @@ export class entityv1 {
             request.put({
                 url: "https://api.api.ai/v1/entities",
                 headers: {
-                    "Authorization": access_token
+                    "Authorization": entityv1.access_token
                 },
                 json: json
             }, function (error: any, response: any, body: any) {
-                // console.log(`on ${access_token} making entity ${entityName}`);
+                // console.log(`on ${entityv1.access_token} making entity ${entityName}`);
                 // console.log(`request body:`, json, ` response: `, response.body);
 
                 //checking if response was success
@@ -47,7 +47,7 @@ export class entityv1 {
             request.post({
                 url: "https://api.api.ai/v1/userEntities",
                 headers: {
-                    "Authorization": access_token
+                    "Authorization": entityv1.access_token
                 },
                 json: {
                     "sessionId": sessionId,
@@ -56,7 +56,7 @@ export class entityv1 {
                 }
             }, function (error: any, response: any, body: any) {
 
-                console.log(`on ${access_token} making entity ${entityName} on session ${sessionId} response: `, response.body);
+                console.log(`on ${entityv1.access_token} making entity ${entityName} on session ${sessionId} response: `, response.body);
                 //checking if response was success
                 if (!error && response.statusCode === 200) {
 
