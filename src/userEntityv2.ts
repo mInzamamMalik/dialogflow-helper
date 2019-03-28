@@ -6,7 +6,7 @@ export interface entityEntry {
     "synonyms": string[]
 }
 
-let cred:{
+let cred: {
     client_email: "dialogflow-xxxxxx@project-name.iam.gserviceaccount.com",
     private_key: "-----BEGIN PRIVATE KEY----xxxxxxxxx",
     project_id: "project-id"
@@ -20,7 +20,7 @@ export let init = (serviceAccountJson) => {
 
 export class nodejsClient {
 
-    static detectIntent = async function (sessionId: string, queryText: string) {
+    static detectIntent = async function (sessionId: string, queryText: string, customPayload) {
 
         // getting server to server OAuth token
         const serviceAccountAuth = new google.auth.JWT({ // key is private key, extracted from service-account json file
@@ -43,6 +43,11 @@ export class nodejsClient {
                         "text": {
                             "languageCode": "en",
                             "text": queryText
+                        }
+                    },
+                    "queryParams": {
+                        "payload": {
+                            key: "value"
                         }
                     }
                 },
