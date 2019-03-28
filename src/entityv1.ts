@@ -5,7 +5,7 @@ export interface entityEntryInterface {
     "synonyms": string[]
 }
 const access_token = "Bearer 3065ceaaf2f24c1cb51dbad1987b1a01"
-class entityv1 {
+export class entityv1 {
 
 
     static makeDevEntity(entityName: string, entries: entityEntryInterface[]) {
