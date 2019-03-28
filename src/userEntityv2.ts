@@ -7,8 +7,8 @@ export interface entityEntry {
 }
 
 let cred:{
-    serviceAccountEmail: "dialogflow-xxxxxx@project-name.iam.gserviceaccount.com",
-    privateKey: "-----BEGIN PRIVATE KEY----xxxxxxxxx",
+    client_email: "dialogflow-xxxxxx@project-name.iam.gserviceaccount.com",
+    private_key: "-----BEGIN PRIVATE KEY----xxxxxxxxx",
     project_id: "project-id"
 }
 
@@ -24,8 +24,8 @@ export class nodejsClient {
 
         // getting server to server OAuth token
         const serviceAccountAuth = new google.auth.JWT({ // key is private key, extracted from service-account json file
-            email: cred.serviceAccountEmail,
-            key: cred.privateKey,
+            email: cred.client_email,
+            key: cred.private_key,
             scopes: ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/dialogflow']
         })
 
@@ -74,8 +74,8 @@ export class agent {
 
         // getting server to server OAuth token
         const serviceAccountAuth = new google.auth.JWT({ // key is private key, extracted from service-account json file
-            email: cred.serviceAccountEmail,
-            key: cred.privateKey,
+            email: cred.client_email,
+            key: cred.private_key,
             scopes: ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/dialogflow']
         })
 
@@ -111,8 +111,8 @@ export class agent {
 
         // getting server to server OAuth token
         const serviceAccountAuth = new google.auth.JWT({ // key is private key, extracted from service-account json file
-            email: cred.serviceAccountEmail,
-            key: cred.privateKey,
+            email: cred.client_email,
+            key: cred.private_key,
             scopes: ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/dialogflow']
         })
 
@@ -157,8 +157,8 @@ export class userEntityv2 {
 
         // getting server to server OAuth token
         const serviceAccountAuth = new google.auth.JWT({ // key is private key, extracted from service-account json file
-            email: cred.serviceAccountEmail,
-            key: cred.privateKey,
+            email: cred.client_email,
+            key: cred.private_key,
             scopes: ['https://www.googleapis.com/auth/cloud-platform']
         })
 
