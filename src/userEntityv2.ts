@@ -6,21 +6,21 @@ export interface entityEntry {
     "synonyms": string[]
 }
 
-let cred = {
+let cred:{
     serviceAccountEmail: "dialogflow-xxxxxx@project-name.iam.gserviceaccount.com",
     privateKey: "-----BEGIN PRIVATE KEY----xxxxxxxxx",
+    project_id: "project-id"
 }
 
 export let init = (serviceAccountJson) => {
     console.log("serviceAccountJson: ", serviceAccountJson);
-    cred.privateKey = serviceAccountJson.privateKey;
-    cred.serviceAccountEmail = serviceAccountJson.serviceAccountEmail;
+    cred = serviceAccountJson
 }
 
 
 export class nodejsClient {
 
-    static detectIntent = async function (projectId: string, sessionId: string, queryText: string) {
+    static detectIntent = async function (sessionId: string, queryText: string) {
 
         // getting server to server OAuth token
         const serviceAccountAuth = new google.auth.JWT({ // key is private key, extracted from service-account json file
@@ -37,7 +37,7 @@ export class nodejsClient {
         return new Promise((resolve, reject) => {
             // adding all organizations in apiai userEntity
             request.post({
-                url: `https://dialogflow.googleapis.com/v2/projects/${projectId}/agent/sessions/${sessionId}:detectIntent`,
+                url: `https://dialogflow.googleapis.com/v2/projects/${cred.project_id}/agent/sessions/${sessionId}:detectIntent`,
                 json: {
                     "queryInput": {
                         "text": {
