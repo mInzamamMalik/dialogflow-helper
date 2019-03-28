@@ -20,7 +20,7 @@ export let init = (serviceAccountJson) => {
 
 export class nodejsClient {
 
-    static detectIntent = async function (sessionId: string, queryText: string, customPayload) {
+    static detectIntent = async function (sessionId: string, queryText: string, customPayload:Object = {}) {
 
         // getting server to server OAuth token
         const serviceAccountAuth = new google.auth.JWT({ // key is private key, extracted from service-account json file
@@ -46,9 +46,7 @@ export class nodejsClient {
                         }
                     },
                     "queryParams": {
-                        "payload": {
-                            key: "value"
-                        }
+                        "payload": customPayload
                     }
                 },
                 headers: {
