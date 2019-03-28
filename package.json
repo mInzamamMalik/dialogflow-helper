@@ -1,0 +1,31 @@
+{
+  "name": "dilogflow-helper",
+  "version": "0.0.1",
+  "description": "bunch of dialogflow helper functions such as for making developer entity and session entity and many more using dialogflow v2 rest api",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/malikasinger1/dilogflow-helper.git"
+  },
+  "keywords": [
+    "dialogflow",
+    "sesion entity",
+    "developer entity",
+    "dialogflow",
+    "client"
+  ],
+  "author": "Muhammad Inzamam Malik",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/malikasinger1/dilogflow-helper/issues"
+  },
+  "homepage": "https://github.com/malikasinger1/dilogflow-helper#readme",
+  "dependencies": {
+    "@types/request": "^2.48.1",
+    "googleapis": "^39.0.0",
+    "request": "^2.88.0"
+  }
+}
