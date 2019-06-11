@@ -6,6 +6,6 @@ bunch of dialogflow helper
 # Install:
 `npm i dialogflow-helper`
 
-#contribute:
+# contribute:
 Feel free to fork and make pull requests
 Or if you are passionate and want to have direct access to the repo Just let me know I will add you as collaborator after signing a simple agreement document
