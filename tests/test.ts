@@ -1,4 +1,0 @@
-import {agent} from '../index'
-
-
-

@@ -5,22 +5,33 @@ export interface entityEntry {
     "value": string,
     "synonyms": string[]
 }
-
-let cred: {
-    client_email: "dialogflow-xxxxxx@project-name.iam.gserviceaccount.com",
-    private_key: "-----BEGIN PRIVATE KEY----xxxxxxxxx",
-    project_id: "project-id"
+export interface serviceAccount {
+    client_email: string,
+    private_key: string,
+    project_id: string,
+    [ignore_additional_property: string]: string;
 }
 
-export let init = (serviceAccountJson) => {
-    console.log("serviceAccountJson: ", serviceAccountJson);
-    cred = serviceAccountJson
+let cred: serviceAccount;
+
+export let init = (serviceAccountJson: serviceAccount) => {
+
+    if (serviceAccountJson.client_email
+        && serviceAccountJson.private_key
+        && serviceAccountJson.project_id
+    ) {
+        // console.log("serviceAccountJson: ", serviceAccountJson);
+        console.log("dialogflow-helper initialized")
+        cred = serviceAccountJson;
+    } else {
+        console.error("Failed to initialize dialogflow-helper: client_email, private_key and project_id are required, please initialize with correct service account json")
+    }
 }
 
 
 export class nodejsClient {
 
-    static detectIntent = async function (sessionId: string, queryText: string, customPayload:Object = {}) {
+    static detectIntent = async function (sessionId: string, queryText: string, customPayload: Object = {}) {
 
         // getting server to server OAuth token
         const serviceAccountAuth = new google.auth.JWT({ // key is private key, extracted from service-account json file
@@ -73,7 +84,7 @@ export class nodejsClient {
 
 export class agent {
 
-    static getAllIntents = async function (session: string) {
+    static getAllIntents = async function () {
 
         // getting server to server OAuth token
         const serviceAccountAuth = new google.auth.JWT({ // key is private key, extracted from service-account json file
@@ -90,7 +101,7 @@ export class agent {
         return new Promise((resolve, reject) => {
             // adding all organizations in apiai userEntity
             request.get({
-                url: `https://dialogflow.googleapis.com/v2/projects/ivow-dev/agent/intents/`,
+                url: `https://dialogflow.googleapis.com/v2/projects/${cred.project_id}/agent/intents/`,
                 headers: {
                     "Authorization": accessToken
                 }
@@ -103,14 +114,14 @@ export class agent {
                     resolve(response.body);
 
                 } else {
-                    console.log(`on ${accessToken} on session ${session} `);
+                    console.log(`on ${accessToken}`);
                     console.log("error in getting intent list: ", response.statusCode, error);
                     reject(error)
                 }
             })
         })//promise end
     }
-    static getIntent = async function (session: string, intentId: string) {
+    static getIntent = async function (intentId: string) {
 
         // getting server to server OAuth token
         const serviceAccountAuth = new google.auth.JWT({ // key is private key, extracted from service-account json file
@@ -127,7 +138,7 @@ export class agent {
         return new Promise((resolve, reject) => {
             // adding all organizations in apiai userEntity
             request.get({
-                url: `https://dialogflow.googleapis.com/v2/projects/ivow-dev/agent/intents/${intentId}`,
+                url: `https://dialogflow.googleapis.com/v2/projects/${cred.project_id}/agent/intents/${intentId}`,
                 headers: {
                     "Authorization": accessToken
                 }
@@ -140,7 +151,7 @@ export class agent {
                     resolve(response.body);
 
                 } else {
-                    console.log(`on ${accessToken} on session ${session} `);
+                    console.log(`on ${accessToken}`);
                     console.log("error in getting intent: ", response.statusCode, error);
                     reject(error)
                 }
