@@ -1,6 +1,6 @@
 {
   "name": "dialogflow-helper",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "bunch of dialogflow helper functions such as for making developer entity and session entity and many more using dialogflow v2 rest api",
   "main": "lib/index.js",
   "scripts": {
