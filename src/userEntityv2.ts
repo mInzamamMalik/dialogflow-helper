@@ -62,7 +62,7 @@ export class nodejsClient {
 
                 } else {
                     console.log(`on ${accessToken} on session ${sessionId} `);
-                    console.log("error in getting intent list: ", response.statusCode, error);
+                    console.log("error in detect intent: ", response.statusCode, error);
                     reject(error)
                 }
             })
