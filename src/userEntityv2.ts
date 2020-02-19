@@ -33,6 +33,13 @@ export class nodejsClient {
 
     static detectIntent = async function (sessionId: string, queryText: string, customPayload: Object = {}) {
 
+        const containInvalid = RegExp(/[^a-zA-Z0-9`~!@$%^&*()-+.]/g);
+
+        if (containInvalid.test(sessionId)) {
+            console.warn("detectIntent: In sessionId special charecters could be a problem, if you are getting 404 when you detect intent please make sure your sessionId have legal charectors only,  (/,#) are strickly prohabited")
+        }
+
+
         // getting server to server OAuth token
         const serviceAccountAuth = new google.auth.JWT({ // key is private key, extracted from service-account json file
             email: cred.client_email,
@@ -46,8 +53,7 @@ export class nodejsClient {
         console.log("accessToken: ", accessToken)
 
         return new Promise((resolve, reject) => {
-            // adding all organizations in apiai userEntity
-            request.post({
+            const requestObj = {
                 url: `https://dialogflow.googleapis.com/v2/projects/${cred.project_id}/agent/sessions/${sessionId}:detectIntent`,
                 json: {
                     "queryInput": {
@@ -63,7 +69,10 @@ export class nodejsClient {
                 headers: {
                     "Authorization": accessToken
                 }
-            }, function (error: any, response: any, body: any) {
+            }
+            // console.log("requestObj: ", requestObj)
+
+            request.post(requestObj, function (error: any, response: any, body: any) {
 
                 console.log(`on ${accessToken} detecting intent: `, response.body);
                 //checking if response was success
