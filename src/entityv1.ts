@@ -26,14 +26,14 @@ export class entityv1 {
                 },
                 json: json
             }, function (error: any, response: any, body: any) {
-                // console.log(`on ${entityv1.access_token} making entity ${entityName}`);
-                // console.log(`request body:`, json, ` response: `, response.body);
+                console.debug(`on ${entityv1.access_token} making entity ${entityName}`);
+                console.debug(`request body:`, json, ` response: `, response.body);
 
                 //checking if response was success
                 if (!error && response.statusCode === 200) {
                     resolve(response.body);
                 } else {
-                    // console.log("error in making user /entity: ", response.statusCode, error);
+                    console.error("error in making user /entity: ", response.statusCode, error);
                     reject(error)
                 }
             })
@@ -56,14 +56,14 @@ export class entityv1 {
                 }
             }, function (error: any, response: any, body: any) {
 
-                console.log(`on ${entityv1.access_token} making entity ${entityName} on session ${sessionId} response: `, response.body);
+                console.debug(`on ${entityv1.access_token} making entity ${entityName} on session ${sessionId} response: `, response.body);
                 //checking if response was success
                 if (!error && response.statusCode === 200) {
 
                     resolve(response.body);
 
                 } else {
-                    // console.log("error in making user /entity: ", response.statusCode, error);
+                    console.error("error in making user /entity: ", response.statusCode, error);
                     reject(error)
                 }
             })
@@ -124,7 +124,8 @@ export class entityv1 {
             entityv1.makeUserEntity(sessionId, entityName, entityEntry).then(response => {
                 resolve(response)
             }).catch(e => {
-                console.log(e)
+                console.error(e)
+                reject(e)
             })
         })//promise end
     }

@@ -20,7 +20,7 @@ export let init = (serviceAccountJson: serviceAccount) => {
         && serviceAccountJson.private_key
         && serviceAccountJson.project_id
     ) {
-        // console.log("serviceAccountJson: ", serviceAccountJson);
+        // console.debug("serviceAccountJson: ", serviceAccountJson);
         console.log("dialogflow-helper initialized")
         cred = serviceAccountJson;
     } else {
@@ -48,9 +48,9 @@ export class nodejsClient {
         })
 
         const tokenData = await serviceAccountAuth.authorize()
-        console.log("tokenData: ", tokenData)
+        console.debug("tokenData: ", tokenData)
         const accessToken = `${tokenData.token_type} ${tokenData.access_token}`
-        console.log("accessToken: ", accessToken)
+        console.debug("accessToken: ", accessToken)
 
         return new Promise((resolve, reject) => {
             const requestObj = {
@@ -70,19 +70,19 @@ export class nodejsClient {
                     "Authorization": accessToken
                 }
             }
-            // console.log("requestObj: ", requestObj)
+            // console.debug("requestObj: ", requestObj)
 
             request.post(requestObj, function (error: any, response: any, body: any) {
 
-                console.log(`on ${accessToken} detecting intent: `, response.body);
+                console.debug(`on ${accessToken} detecting intent: `, response.body);
                 //checking if response was success
                 if (!error && response.statusCode === 200) {
 
                     resolve(response.body);
 
                 } else {
-                    console.log(`on ${accessToken} on session ${sessionId} `);
-                    console.log("error in detect intent: ", response.statusCode, error);
+                    console.debug(`on ${accessToken} on session ${sessionId} `);
+                    console.error("error in detect intent: ", response.statusCode, error);
                     reject(error)
                 }
             })
@@ -103,9 +103,9 @@ export class agent {
         })
 
         const tokenData = await serviceAccountAuth.authorize()
-        console.log("tokenData: ", tokenData)
+        console.debug("tokenData: ", tokenData)
         const accessToken = `${tokenData.token_type} ${tokenData.access_token}`
-        console.log("accessToken: ", accessToken)
+        console.debug("accessToken: ", accessToken)
 
         return new Promise((resolve, reject) => {
             // adding all organizations in apiai userEntity
@@ -116,15 +116,15 @@ export class agent {
                 }
             }, function (error: any, response: any, body: any) {
 
-                console.log(`on ${accessToken} getting intent list: `, response.body);
+                console.debug(`on ${accessToken} getting intent list: `, response.body);
                 //checking if response was success
                 if (!error && response.statusCode === 200) {
 
                     resolve(response.body);
 
                 } else {
-                    console.log(`on ${accessToken}`);
-                    console.log("error in getting intent list: ", response.statusCode, error);
+                    console.debug(`on ${accessToken}`);
+                    console.error("error in getting intent list: ", response.statusCode, error);
                     reject(error)
                 }
             })
@@ -140,9 +140,9 @@ export class agent {
         })
 
         const tokenData = await serviceAccountAuth.authorize()
-        console.log("tokenData: ", tokenData)
+        console.debug("tokenData: ", tokenData)
         const accessToken = `${tokenData.token_type} ${tokenData.access_token}`
-        console.log("accessToken: ", accessToken)
+        console.debug("accessToken: ", accessToken)
 
         return new Promise((resolve, reject) => {
             // adding all organizations in apiai userEntity
@@ -153,15 +153,15 @@ export class agent {
                 }
             }, function (error: any, response: any, body: any) {
 
-                console.log(`on ${accessToken} getting intent list: `, response.body);
+                console.debug(`on ${accessToken} getting intent list: `, response.body);
                 //checking if response was success
                 if (!error && response.statusCode === 200) {
 
                     resolve(response.body);
 
                 } else {
-                    console.log(`on ${accessToken}`);
-                    console.log("error in getting intent: ", response.statusCode, error);
+                    console.debug(`on ${accessToken}`);
+                    console.error("error in getting intent: ", response.statusCode, error);
                     reject(error)
                 }
             })
@@ -186,15 +186,15 @@ export class userEntityv2 {
         })
 
         const tokenData = await serviceAccountAuth.authorize()
-        console.log("tokenData: ", tokenData)
+        console.debug("tokenData: ", tokenData)
         const accessToken = `${tokenData.token_type} ${tokenData.access_token}`
-        console.log("accessToken: ", accessToken)
+        console.debug("accessToken: ", accessToken)
 
         // cleaning session id:
         // session comes in production: "projects/ivow-dev/agent/environments/__aog-2/users/-/sessions/ABwppHFAOMb4sI8jtqvYUtW1ukPMMP7E0uPEgpKjvOAnZJZ8k7OZZ_5Nf46rzaJhM6uKOjk6eRc"
         // session comes in development: "projects/ivow-dev/agent/sessions/ABwppHEr4cN0CrYSL9j8XmQImU33A7EIapijgLMPyQjZc2n87gBv1RxPdo253VA7Nzf7CXd6Rt8"
         // const session = _session.replace("/environments/__aog-2/users/-", "")
-        // console.log("session: ", session)
+        // console.debug("session: ", session)
 
 
         return new Promise((resolve, reject) => {
@@ -211,7 +211,7 @@ export class userEntityv2 {
                 }
             }, function (error: any, response: any, body: any) {
 
-                console.log(`on ${accessToken} making entity ${entityName} on session ${session} response: `, response.body);
+                console.debug(`on ${accessToken} making entity ${entityName} on session ${session} response: `, response.body);
 
 
                 //checking if response was success
@@ -220,8 +220,8 @@ export class userEntityv2 {
                     resolve(response.body);
 
                 } else {
-                    console.log(`on ${accessToken} making entity ${entityName} on session ${session} `);
-                    console.log("error in making user /entity: ", response.statusCode, error);
+                    console.debug(`on ${accessToken} making entity ${entityName} on session ${session} `);
+                    console.error("error in making user /entity: ", response.statusCode, error);
                     reject(error)
                 }
             })
