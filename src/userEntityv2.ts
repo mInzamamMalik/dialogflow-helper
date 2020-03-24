@@ -13,14 +13,28 @@ export interface serviceAccount {
 }
 
 let cred: serviceAccount;
+let debug: boolean;
 
-export let init = (serviceAccountJson: serviceAccount) => {
+const debugLog = (data1: any, data2?: any, data3?: any) => {
+    if (typeof data1 === "object" && data1.outputAudio) {
+        data1.outputAudio = `${data1.outputAudio.slice(0, 200)} ( ... truncated text)`
+    }
+    if (typeof data2 === "object" && data2.outputAudio) {
+        data2.outputAudio = `${data2.outputAudio.slice(0, 200)} ( ... truncated text)`
+    }
+    if (typeof data3 === "object" && data3.outputAudio) {
+        data3.outputAudio = `${data3.outputAudio.slice(0, 200)} ( ... truncated text)`
+    }
+    debugLog(data1, data2, data3);
+}
+
+export let init = (serviceAccountJson: serviceAccount, debug: boolean = false) => {
 
     if (serviceAccountJson.client_email
         && serviceAccountJson.private_key
         && serviceAccountJson.project_id
     ) {
-        // console.debug("serviceAccountJson: ", serviceAccountJson);
+        // debugLog("serviceAccountJson: ", serviceAccountJson);
         console.log("dialogflow-helper initialized")
         cred = serviceAccountJson;
     } else {
@@ -48,9 +62,9 @@ export class nodejsClient {
         })
 
         const tokenData = await serviceAccountAuth.authorize()
-        console.debug("tokenData: ", tokenData)
+        debugLog("tokenData: ", tokenData)
         const accessToken = `${tokenData.token_type} ${tokenData.access_token}`
-        console.debug("accessToken: ", accessToken)
+        debugLog("accessToken: ", accessToken)
 
         return new Promise((resolve, reject) => {
             const requestObj = {
@@ -70,18 +84,18 @@ export class nodejsClient {
                     "Authorization": accessToken
                 }
             }
-            // console.debug("requestObj: ", requestObj)
+            // debugLog("requestObj: ", requestObj)
 
             request.post(requestObj, function (error: any, response: any, body: any) {
 
-                console.debug(`on ${accessToken} detecting intent: `, response.body);
+                debugLog(`on ${accessToken} detecting intent: `, response.body);
                 //checking if response was success
                 if (!error && response.statusCode === 200) {
 
                     resolve(response.body);
 
                 } else {
-                    console.debug(`on ${accessToken} on session ${sessionId} `);
+                    debugLog(`on ${accessToken} on session ${sessionId} `);
                     console.error("error in detect intent: ", response.statusCode, error);
                     reject(error)
                 }
@@ -103,9 +117,9 @@ export class agent {
         })
 
         const tokenData = await serviceAccountAuth.authorize()
-        console.debug("tokenData: ", tokenData)
+        debugLog("tokenData: ", tokenData)
         const accessToken = `${tokenData.token_type} ${tokenData.access_token}`
-        console.debug("accessToken: ", accessToken)
+        debugLog("accessToken: ", accessToken)
 
         return new Promise((resolve, reject) => {
             // adding all organizations in apiai userEntity
@@ -116,14 +130,14 @@ export class agent {
                 }
             }, function (error: any, response: any, body: any) {
 
-                console.debug(`on ${accessToken} getting intent list: `, response.body);
+                debugLog(`on ${accessToken} getting intent list: `, response.body);
                 //checking if response was success
                 if (!error && response.statusCode === 200) {
 
                     resolve(response.body);
 
                 } else {
-                    console.debug(`on ${accessToken}`);
+                    debugLog(`on ${accessToken}`);
                     console.error("error in getting intent list: ", response.statusCode, error);
                     reject(error)
                 }
@@ -140,9 +154,9 @@ export class agent {
         })
 
         const tokenData = await serviceAccountAuth.authorize()
-        console.debug("tokenData: ", tokenData)
+        debugLog("tokenData: ", tokenData)
         const accessToken = `${tokenData.token_type} ${tokenData.access_token}`
-        console.debug("accessToken: ", accessToken)
+        debugLog("accessToken: ", accessToken)
 
         return new Promise((resolve, reject) => {
             // adding all organizations in apiai userEntity
@@ -153,14 +167,14 @@ export class agent {
                 }
             }, function (error: any, response: any, body: any) {
 
-                console.debug(`on ${accessToken} getting intent list: `, response.body);
+                debugLog(`on ${accessToken} getting intent list: `, response.body);
                 //checking if response was success
                 if (!error && response.statusCode === 200) {
 
                     resolve(response.body);
 
                 } else {
-                    console.debug(`on ${accessToken}`);
+                    debugLog(`on ${accessToken}`);
                     console.error("error in getting intent: ", response.statusCode, error);
                     reject(error)
                 }
@@ -186,15 +200,15 @@ export class userEntityv2 {
         })
 
         const tokenData = await serviceAccountAuth.authorize()
-        console.debug("tokenData: ", tokenData)
+        debugLog("tokenData: ", tokenData)
         const accessToken = `${tokenData.token_type} ${tokenData.access_token}`
-        console.debug("accessToken: ", accessToken)
+        debugLog("accessToken: ", accessToken)
 
         // cleaning session id:
         // session comes in production: "projects/ivow-dev/agent/environments/__aog-2/users/-/sessions/ABwppHFAOMb4sI8jtqvYUtW1ukPMMP7E0uPEgpKjvOAnZJZ8k7OZZ_5Nf46rzaJhM6uKOjk6eRc"
         // session comes in development: "projects/ivow-dev/agent/sessions/ABwppHEr4cN0CrYSL9j8XmQImU33A7EIapijgLMPyQjZc2n87gBv1RxPdo253VA7Nzf7CXd6Rt8"
         // const session = _session.replace("/environments/__aog-2/users/-", "")
-        // console.debug("session: ", session)
+        // debugLog("session: ", session)
 
 
         return new Promise((resolve, reject) => {
@@ -211,7 +225,7 @@ export class userEntityv2 {
                 }
             }, function (error: any, response: any, body: any) {
 
-                console.debug(`on ${accessToken} making entity ${entityName} on session ${session} response: `, response.body);
+                debugLog(`on ${accessToken} making entity ${entityName} on session ${session} response: `, response.body);
 
 
                 //checking if response was success
@@ -220,7 +234,7 @@ export class userEntityv2 {
                     resolve(response.body);
 
                 } else {
-                    console.debug(`on ${accessToken} making entity ${entityName} on session ${session} `);
+                    debugLog(`on ${accessToken} making entity ${entityName} on session ${session} `);
                     console.error("error in making user /entity: ", response.statusCode, error);
                     reject(error)
                 }

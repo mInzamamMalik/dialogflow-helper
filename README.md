@@ -14,9 +14,16 @@ Or if you are passionate and want to have direct access to the repo Just let me 
 
 `npm i dialogflow-helper`
 
+# initialize
+
+`init(cert: object, debug: boolean)`
+
+debug parameter is optional, default value is false, enabling debug will give extra logs
 
 
-# Usage (es6/typescript): 
+
+
+## Usage (es6/typescript): 
 
 ```
 import {init, nodejsClient, agent, entityEntryInterface, entityv1, userEntityv2 } from 'dialogflow-helper'
@@ -26,13 +33,14 @@ import {init, nodejsClient, agent, entityEntryInterface, entityv1, userEntityv2 
 initialize the helper library
 replace this json with your own service account
 
+
 ```
 init({
     "type": "service_account",
     "project_id": "abc-project id",
     "client_email": "dialogflow-xxxx@bilal-assistant.iam.gserviceaccount.com",
     "private_key": "adfadfsdfsdfsdfsdf"
-})
+}, true)
 
 ```
 
