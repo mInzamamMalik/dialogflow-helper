@@ -14,6 +14,11 @@ Or if you are passionate and want to have direct access to the repo Just let me 
 
 `npm i dialogflow-helper`
 
+> if you wanted to install the latest nightly version
+**```npm i https://github.com/malikasinger1/dialogflow-helper.git```**
+
+>**Warning**: latest nightly version may have bugs, open issue in repo if you notice any bug in any version 
+
 # initialize
 
 `init(cert: object, debug: boolean)`
