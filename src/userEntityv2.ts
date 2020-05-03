@@ -13,19 +13,22 @@ export interface serviceAccount {
 }
 
 let cred: serviceAccount;
-let debug: boolean;
+let _debug: boolean;
 
 const debugLog = (data1: any, data2?: any, data3?: any) => {
-    if (typeof data1 === "object" && data1.outputAudio) {
-        data1.outputAudio = `${data1.outputAudio.slice(0, 200)} ( ... truncated text)`
+    if (_debug) {
+
+        if (typeof data1 === "object" && data1.outputAudio) {
+            data1.outputAudio = `${data1.outputAudio.slice(0, 200)} ( ... truncated text)`
+        }
+        if (typeof data2 === "object" && data2.outputAudio) {
+            data2.outputAudio = `${data2.outputAudio.slice(0, 200)} ( ... truncated text)`
+        }
+        if (typeof data3 === "object" && data3.outputAudio) {
+            data3.outputAudio = `${data3.outputAudio.slice(0, 200)} ( ... truncated text)`
+        }
+        console.log(data1, data2, data3);
     }
-    if (typeof data2 === "object" && data2.outputAudio) {
-        data2.outputAudio = `${data2.outputAudio.slice(0, 200)} ( ... truncated text)`
-    }
-    if (typeof data3 === "object" && data3.outputAudio) {
-        data3.outputAudio = `${data3.outputAudio.slice(0, 200)} ( ... truncated text)`
-    }
-    console.log(data1, data2, data3);
 }
 
 export let init = (serviceAccountJson: serviceAccount, debug: boolean = false) => {
@@ -40,6 +43,7 @@ export let init = (serviceAccountJson: serviceAccount, debug: boolean = false) =
     } else {
         console.error("Failed to initialize dialogflow-helper: client_email, private_key and project_id are required, please initialize with correct service account json")
     }
+    _debug = debug;
 }
 
 
