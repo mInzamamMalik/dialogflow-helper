@@ -215,7 +215,7 @@ export class agent {
                 //checking if response was success
                 if (!error && response.statusCode === 200) {
 
-                    resolve(response.body);
+                    resolve(JSON.parse(response.body));
 
                 } else {
                     debugLog(`on ${accessToken}`);
@@ -253,7 +253,7 @@ export class agent {
                 //checking if response was success
                 if (!error && response.statusCode === 200) {
 
-                    resolve(response.body);
+                    resolve(JSON.parse(response.body));
 
                 } else {
                     debugLog(`on ${accessToken}`);

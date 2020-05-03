@@ -38,22 +38,30 @@ agent.getIntent("ed90f12e-0391-475c-bf43-c13cfb363f7f").then(intent => {
 //      ...
 //   }
 
-agent.getAllEntities().then(allEntities => {
-    console.log("allEntities: ", allEntities);
+agent.getAllEntities().then((allEntities: any) => {
 
-    // allEntities type: (https://cloud.google.com/dialogflow/docs/reference/rest/v2/projects.agent.entityTypes/list#response-body)
-    //   {
-    //     "entityTypes": [
-    //       {
-    //         object (EntityType)
-    //       }
-    //     ],
-    //     "nextPageToken": string
-    //   }
+    console.log("allEntities: ", Object.keys(allEntities));
+
+    allEntities.entityTypes.map(eachEntity => {
+        console.log(eachEntity.name)
+    })
+
+    //     // allEntities type: (https://cloud.google.com/dialogflow/docs/reference/rest/v2/projects.agent.entityTypes/list#response-body)
+    //     //   {
+    //     //     "entityTypes": [
+    //     //       {
+    //     //         object (EntityType)
+    //     //       }
+    //     //     ],
+    //     //     "nextPageToken": string
+    //     //   }
 })
 
-agent.getEntity("fc689e87-a9fc-4749-8d81-ee1dff6583c8").then(entity => {
-    console.log("entity: ", entity);
+agent.getEntity("fc689e87-a9fc-4749-8d81-ee1dff6583c8").then((entity: any) => {
+    // console.log("entity: ", entity);
+    console.log("entity: ", typeof entity);
+    console.log("entity: ", entity.name);
+    console.log("entity: ", Object.keys(entity));
 
     // Entity response: (https://cloud.google.com/dialogflow/docs/reference/rest/v2/projects.agent.entityTypes#resource:-entitytype)
     //   {
