@@ -1,11 +1,12 @@
 {
   "name": "dialogflow-helper",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "bunch of dialogflow helper functions such as for making developer entity and session entity and many more using dialogflow v2 rest api",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc --watch"
+    "build": "tsc --watch",
+    "publish":"tsc && npm publish"
   },
   "repository": {
     "type": "git",
