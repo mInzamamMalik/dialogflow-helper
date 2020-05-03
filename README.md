@@ -26,6 +26,11 @@ Or if you are passionate and want to have direct access to the repo Just let me 
 debug parameter is optional, default value is false, enabling debug will give extra logs
 
 
+# To run example quickly:
+install ts-node: https://www.npmjs.com/package/ts-node
+clone this repository 
+goto example folder, run command `ts-node test.ts`
+dont forget to replace credentials before running example
 
 
 ## Usage (es6/typescript): 

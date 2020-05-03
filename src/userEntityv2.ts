@@ -25,7 +25,7 @@ const debugLog = (data1: any, data2?: any, data3?: any) => {
     if (typeof data3 === "object" && data3.outputAudio) {
         data3.outputAudio = `${data3.outputAudio.slice(0, 200)} ( ... truncated text)`
     }
-    debugLog(data1, data2, data3);
+    console.log(data1, data2, data3);
 }
 
 export let init = (serviceAccountJson: serviceAccount, debug: boolean = false) => {
@@ -144,6 +144,7 @@ export class agent {
             })
         })//promise end
     }
+
     static getIntent = async function (intentId: string) {
 
         // getting server to server OAuth token
@@ -167,7 +168,7 @@ export class agent {
                 }
             }, function (error: any, response: any, body: any) {
 
-                debugLog(`on ${accessToken} getting intent list: `, response.body);
+                debugLog(`on ${accessToken} getting intent: `, response.body);
                 //checking if response was success
                 if (!error && response.statusCode === 200) {
 
@@ -182,6 +183,82 @@ export class agent {
         })//promise end
     }
 
+
+    static getAllEntities = async function () {
+
+        // getting server to server OAuth token
+        const serviceAccountAuth = new google.auth.JWT({ // key is private key, extracted from service-account json file
+            email: cred.client_email,
+            key: cred.private_key,
+            scopes: ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/dialogflow']
+        })
+
+        const tokenData = await serviceAccountAuth.authorize()
+        debugLog("tokenData: ", tokenData)
+        const accessToken = `${tokenData.token_type} ${tokenData.access_token}`
+        debugLog("accessToken: ", accessToken)
+
+        return new Promise((resolve, reject) => {
+            // adding all organizations in apiai userEntity
+            request.get({
+                url: `https://dialogflow.googleapis.com/v2/projects/${cred.project_id}/agent/entityTypes/`,
+                headers: {
+                    "Authorization": accessToken
+                }
+            }, function (error: any, response: any, body: any) {
+
+                debugLog(`on ${accessToken} getting entities list: `, response.body);
+                //checking if response was success
+                if (!error && response.statusCode === 200) {
+
+                    resolve(response.body);
+
+                } else {
+                    debugLog(`on ${accessToken}`);
+                    console.error("error in getting entities list: ", response.statusCode, error);
+                    reject(error)
+                }
+            })
+        })//promise end
+    }
+
+    static getEntity = async function (entityId: string) {
+
+        // getting server to server OAuth token
+        const serviceAccountAuth = new google.auth.JWT({ // key is private key, extracted from service-account json file
+            email: cred.client_email,
+            key: cred.private_key,
+            scopes: ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/dialogflow']
+        })
+
+        const tokenData = await serviceAccountAuth.authorize()
+        debugLog("tokenData: ", tokenData)
+        const accessToken = `${tokenData.token_type} ${tokenData.access_token}`
+        debugLog("accessToken: ", accessToken)
+
+        return new Promise((resolve, reject) => {
+            // adding all organizations in apiai userEntity
+            request.get({
+                url: `https://dialogflow.googleapis.com/v2/projects/${cred.project_id}/agent/entityTypes/${entityId}`,
+                headers: {
+                    "Authorization": accessToken
+                }
+            }, function (error: any, response: any, body: any) {
+
+                debugLog(`on ${accessToken} getting entity: `, response.body);
+                //checking if response was success
+                if (!error && response.statusCode === 200) {
+
+                    resolve(response.body);
+
+                } else {
+                    debugLog(`on ${accessToken}`);
+                    console.error("error in getting entity: ", response.statusCode, error);
+                    reject(error)
+                }
+            })
+        })//promise end
+    }
 
 }
 export class userEntityv2 {

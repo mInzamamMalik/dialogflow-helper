@@ -3,7 +3,7 @@ import { init, nodejsClient, agent, entityEntryInterface, entityv1, userEntityv2
 
 // 
 // initialize the helper library
-// replace this json with your own service account
+// replace this json with your own service account, service account must have dialogflow admin access in google IAM
 init({
     "type": "service_account",
     "project_id": "abc-project id",
@@ -25,7 +25,9 @@ agent.getAllIntents().then(allIntents => {
 })
 
 
-agent.getIntent("ed90f12e-0391-475c-bf43-c13cfb363f7f")
+agent.getIntent("ed90f12e-0391-475c-bf43-c13cfb363f7f").then(intent => {
+    console.log("intent: ", intent);
+})
 // when you get all intents look last part of each intent name is id of that intent
 // {
 //     "name": "projects/bilal-assistant/agent/intents/ed90f12e-0391-475c-bf43-c13cfb363f7f",
@@ -35,6 +37,41 @@ agent.getIntent("ed90f12e-0391-475c-bf43-c13cfb363f7f")
 //     "parameters": ...
 //      ...
 //   }
+
+agent.getAllEntities().then(allEntities => {
+    console.log("allEntities: ", allEntities);
+
+    // allEntities type: (https://cloud.google.com/dialogflow/docs/reference/rest/v2/projects.agent.entityTypes/list#response-body)
+    //   {
+    //     "entityTypes": [
+    //       {
+    //         object (EntityType)
+    //       }
+    //     ],
+    //     "nextPageToken": string
+    //   }
+})
+
+agent.getEntity("fc689e87-a9fc-4749-8d81-ee1dff6583c8").then(entity => {
+    console.log("entity: ", entity);
+
+    // Entity response: (https://cloud.google.com/dialogflow/docs/reference/rest/v2/projects.agent.entityTypes#resource:-entitytype)
+    //   {
+    //     "name": string,
+    //     "displayName": string,
+    //     "kind": enum (Kind),
+    //     "autoExpansionMode": enum (AutoExpansionMode),
+    //     "entities": [
+    //       {
+    //         object (Entity)
+    //       }
+    //     ],
+    //     "enableFuzzyExtraction": boolean
+    //   }
+
+
+
+})
 
 
 // there are some other functions, I will put the full examples later sometime, pull request are most welcome 
