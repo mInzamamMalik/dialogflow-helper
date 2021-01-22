@@ -49,7 +49,7 @@ export let init = (serviceAccountJson: serviceAccount, debug: boolean = false) =
 
 export class nodejsClient {
 
-    static detectIntent = async function (sessionId: string, queryText: string, customPayload: Object = {}) {
+    static detectIntent = async function (sessionId: string, queryText: string, customPayload: Object = {}): Promise<Object> {
 
         const containInvalid = RegExp(/[^a-zA-Z0-9`~!@$%^&*()-+.]/g);
 
