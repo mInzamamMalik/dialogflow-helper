@@ -3,6 +3,8 @@ bunch of dialogflow helper
  functions such as for making developer entity
  and session entity and many more using dialogflow v2 rest api
 
+> note: this module can not be installed/used in browser (i.e: react or angular) since one or more dependencies (i.e: googleapis) are designed to run only in nodejs environment.
+
 # Install:
 `npm i dialogflow-helper`
 
@@ -52,6 +54,15 @@ init({
 }, true)
 
 ```
+
+> please store your service account credentials only in environment varibales only, otherwise it is not safe
+
+>please also make sure your service account have following permission:<br><br>
+> **1)Dialogflow API Client** (if you are using only detect intent)<br>
+>Can call all methods on sessions and conversations resources as well as their descendants.<br><br>
+>2) **Dialogflow API Admin** (if you are using create and delete intent along with detect intent) <br>
+>Can query for intent; read & write session properties; read & write agent properties.
+
 
 to talk with chatbot through nodejs
 ```
