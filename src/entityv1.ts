@@ -22,7 +22,7 @@ export class entityv1 {
             request.put({
                 url: "https://api.api.ai/v1/entities",
                 headers: {
-                    "Authorization": entityv1.access_token
+                    "Authorization": entityv1?.access_token
                 },
                 json: json
             }, function (error: any, response: any, body: any) {
